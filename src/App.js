@@ -12,6 +12,16 @@ function App() {
 
 	const [entries, setEntries] = useState(initialEntries);
 
+	const deleteEntry = (id) => {
+		const result = entries.filter(entry => entry.id !== id)
+		setEntries(result)
+	}
+
+	const addEntry = (description, value) => {
+		const result = entries.concat({id: entries.length+1, description, value})
+		setEntries(result)
+	}
+
   return (
     <Container>
 
@@ -23,11 +33,11 @@ function App() {
 
 			<MainHeader title="History" type="h3"/>
 
-			<EntryLines entries={entries} />
+			<EntryLines entries={entries} deleteEntry={deleteEntry}/>
 
 			<MainHeader title="Add New Transaction" type="h3"/>
 
-			<NewEntryForm />
+			<NewEntryForm addEntry={addEntry}/>
 
 		</Container>
   );

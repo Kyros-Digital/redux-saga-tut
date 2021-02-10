@@ -1,6 +1,9 @@
-import { Container, Form, Button, Grid, Icon, Header, Segment, Statistic } from 'semantic-ui-react'
+import { Container, Grid, Icon, Segment, Statistic } from 'semantic-ui-react'
 import './App.css';
+import DisplayBalance from './components/DisplayBalance';
 import MainHeader from './components/MainHeader';
+import NewEntryForm from './components/NewEntryForm';
+
 
 function App() {
   return (
@@ -8,29 +11,16 @@ function App() {
 
 			<MainHeader title="Budget" />
 
-			<Statistic size="small">
-				<Statistic.Label>Your Balance</Statistic.Label>
-				<Statistic.Value>2,550.53</Statistic.Value>
-			</Statistic>
+			<DisplayBalance value="2,550.53" title="Your Balance: " size="small" />
 
 			<Segment textAlign="center">
 				<Grid columns={2} divided>
 					<Grid.Row>
 						<Grid.Column>
-							<Statistic size="tiny" color="green">
-								<Statistic.Label style={{textAlign: "left"}}>
-									Incoming: 
-								</Statistic.Label>
-								<Statistic.Value>1,045.53</Statistic.Value>
-							</Statistic>
+							<DisplayBalance value="1,043.43" title="Income: " color="green" size="tiny" />
 						</Grid.Column>
 						<Grid.Column>
-						<Statistic size="tiny" color="red">
-								<Statistic.Label style={{textAlign: "left"}}>
-									Expenses: 
-								</Statistic.Label>
-								<Statistic.Value>645.53</Statistic.Value>
-							</Statistic>
+							<DisplayBalance value="645.53" title="Expenses: " color="red" size="tiny" />
 						</Grid.Column>
 					</Grid.Row>
 				</Grid>
@@ -79,21 +69,7 @@ function App() {
 
 			<MainHeader title="Add New Transaction" type="h3"/>
 
-			<Form unstackable>
-				<Form.Group>
-					<Form.Input 
-						icon="tags" width={12} label="Description"
-						placeholder="New Shiny thing" />
-					<Form.Input
-						icon="dollar" iconPosition="left" width={4} label="Value"
-						placeholder="100.00" />
-				</Form.Group>
-				<Button.Group style={{marginTop: 20}}>
-					<Button>Cancel</Button>
-					<Button.Or />
-					<Button primary>Ok</Button>
-				</Button.Group>
-			</Form>
+			<NewEntryForm />
 
 		</Container>
   );

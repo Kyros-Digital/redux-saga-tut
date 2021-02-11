@@ -5,12 +5,17 @@ import DisplayBalance from './components/DisplayBalance.js';
 import DisplayBalances from './components/DisplayBalances.js';
 import EntryLines from './components/EntryLines';
 import MainHeader from './components/MainHeader';
+import ModalEdit from './components/ModalEdit';
 import NewEntryForm from './components/NewEntryForm';
 
 
 function App() {
 
 	const [entries, setEntries] = useState(initialEntries);
+	const [description, setDescription] = useState('');
+	const [value, setValue] = useState('');
+	const [isExpense, setIsExpese] = useState(true);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const deleteEntry = (id) => {
 		const result = entries.filter(entry => entry.id !== id)
@@ -33,11 +38,17 @@ function App() {
 
 			<MainHeader title="History" type="h3"/>
 
-			<EntryLines entries={entries} deleteEntry={deleteEntry}/>
+			<EntryLines entries={entries} deleteEntry={deleteEntry} setIsOpen={setIsOpen}/>
 
 			<MainHeader title="Add New Transaction" type="h3"/>
 
-			<NewEntryForm addEntry={addEntry}/>
+			<NewEntryForm 
+			addEntry={addEntry}
+			description={description} setDescription={setDescription} 
+			value={value} setValue={setValue} 
+			isExpense={isExpense} setIsExpese={setIsExpese}/>
+
+			<ModalEdit isOpen={isOpen} setIsOpen={setIsOpen}/>
 
 		</Container>
   );

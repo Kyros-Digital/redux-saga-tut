@@ -1,11 +1,8 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 
 import { Segment, Grid, Icon } from 'semantic-ui-react'
-import ModalEdit from './ModalEdit'
 
-function EntryLine({id, description, value, isExpense=false, deleteEntry}) {
-
-	const [isOpen, setIsOpen] = useState(false);
+function EntryLine({id, description, value, isExpense=false, deleteEntry, setIsOpen}) {
 
 	return (
 		<Fragment>
@@ -21,7 +18,7 @@ function EntryLine({id, description, value, isExpense=false, deleteEntry}) {
 					</Grid.Row>
 				</Grid>
 			</Segment>
-			<ModalEdit isOpen={isOpen}/>
+			
 		</Fragment>
 	)
 }

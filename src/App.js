@@ -7,7 +7,7 @@ import EntryLines from './components/EntryLines';
 import MainHeader from './components/MainHeader';
 import ModalEdit from './components/ModalEdit';
 import NewEntryForm from './components/NewEntryForm';
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 
 function App() {
 
@@ -46,8 +46,7 @@ function App() {
 	}, [entries]);
 
 //////////////////
-	const store = createStore((state = initialEntries, action) => {
-		console.log(action)
+	const entriesReducer = (state = initialEntries, action) => {
 		let newEntries;
 		switch (action.type) {
 			case 'ADD_ENTRY':
@@ -59,7 +58,12 @@ function App() {
 			default:
 				return state;
 		}
+	}
+
+	const combinedReducers = combineReducers({
+		entries: entriesReducer
 	})
+	const store = createStore(combinedReducers)
 
 	store.subscribe(() => {
 		console.log('store: ', store.getState())

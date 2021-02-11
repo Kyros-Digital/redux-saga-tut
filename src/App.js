@@ -17,6 +17,9 @@ function App() {
 	const [isExpense, setIsExpese] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
 	const [entryId, setEntryId] = useState(null);
+	const [incomeTotal, setIncomeTotal] = useState(0)
+	const [expenseTotal, setExpenseTotal] = useState(0)
+	const [total, setTotal] = useState(0)
 
 	useEffect(() => {
 		if(!isOpen && entryId) {
@@ -26,8 +29,20 @@ function App() {
 			newEntries[index].value = value
 			newEntries[index].isExpense = isExpense
 			setEntries(newEntries)
+			resetEntry()
 		}
 	}, [isOpen]);
+
+	useEffect(() => {
+		let totalIncome = 0, totalExpense = 0;
+		entries.map(entry => {
+			if(entry.isExpense) return (totalExpense += Number(entry.value))
+			else return (totalIncome += Number(entry.value))
+		})
+		setTotal(totalIncome - totalExpense)
+		setIncomeTotal(totalIncome)
+		setExpenseTotal(totalExpense)
+	}, [entries]);
 
 	const deleteEntry = (id) => {
 		const result = entries.filter(entry => entry.id !== id)
@@ -47,9 +62,16 @@ function App() {
 		}
 	}
 
-	const addEntry = (description, value, isExpense) => {
+	const addEntry = () => {
 		const result = entries.concat({id: entries.length+1, description, value, isExpense})
 		setEntries(result)
+		resetEntry()
+	}
+
+	const resetEntry = () => {
+		setDescription('')
+		setValue('')
+		setIsExpese(true)
 	}
 
   return (
@@ -57,9 +79,9 @@ function App() {
 
 			<MainHeader title="Budget" />
 
-			<DisplayBalance value="2,550.53" title="Your Balance: " size="small" />
+			<DisplayBalance value={total} title="Your Balance: " size="small" />
 
-			<DisplayBalances />
+			<DisplayBalances incomeTotal={incomeTotal} expenseTotal={expenseTotal} />
 
 			<MainHeader title="History" type="h3"/>
 
@@ -97,25 +119,25 @@ var initialEntries = [
 	{
 		id: 1,
 		description: 'Work income',
-		value: '$1000.00',
+		value: 1000,
 		isExpense: false
 	},
 	{
 		id: 2,
 		description: 'Water Bill',
-		value: '$133.43',
+		value: 133,
 		isExpense: true
 	},
 	{
 		id: 3,
 		description: 'Rent',
-		value: '$650.00',
+		value: 650,
 		isExpense: true
 	},
 	{
 		id: 4,
 		description: 'Power bill',
-		value: '$82.15',
+		value: 82,
 		isExpense: true
 	},
 ]

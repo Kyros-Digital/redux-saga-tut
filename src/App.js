@@ -12,28 +12,18 @@ import { useSelector } from 'react-redux'
 
 function App() {
 
-	const [description, setDescription] = useState('');
-	const [value, setValue] = useState('');
-	const [isExpense, setIsExpese] = useState(true);
-	const [isOpen, setIsOpen] = useState(false);
-	const [entryId, setEntryId] = useState(null);
 	const [incomeTotal, setIncomeTotal] = useState(0)
 	const [expenseTotal, setExpenseTotal] = useState(0)
 	const [total, setTotal] = useState(0)
+	const [entry, setEntry] = useState()
+	const {isOpen, id} = useSelector(state => state.modals.isOpen)
 	const entries = useSelector(state => state.entries)
 
 	useEffect(() => {
-		if(!isOpen && entryId) {
-			const index = entries.findIndex(entry => entry.id === entryId)
-			const newEntries = [...entries]
-			newEntries[index].description = description
-			newEntries[index].value = value
-			newEntries[index].isExpense = isExpense
-			// setEntries(newEntries)
-			resetEntry()
-		}
-
-	}, [isOpen]);
+		const index = entries.findIndex(entry => entry.id === id)
+		console.log(entries[index])
+		setEntry(entries[index])
+	}, [isOpen, id]);
 
 	useEffect(() => {
 		let totalIncome = 0, totalExpense = 0;
@@ -45,30 +35,6 @@ function App() {
 		setIncomeTotal(totalIncome)
 		setExpenseTotal(totalExpense)
 	}, [entries]);
-
-	const editEntry = (id) => {
-		if(id) {
-			const index = entries.findIndex(entry => entry.id === id)
-			const entry = entries[index]
-			setEntryId(id)
-			setDescription(entry.description)
-			setValue(entry.value)
-			setIsExpese(entry.isExpense)
-			setIsOpen(true)
-		}
-	}
-
-	const addEntry = () => {
-		const result = entries.concat({id: entries.length+1, description, value, isExpense})
-		// setEntries(result)
-		resetEntry()
-	}
-
-	const resetEntry = () => {
-		setDescription('')
-		setValue('')
-		setIsExpese(true)
-	}
 
   return (
     <Container>
@@ -83,26 +49,13 @@ function App() {
 
 			<EntryLines 
 				entries={entries} 
-				setIsOpen={setIsOpen}
-				editEntry={editEntry}
 			/>
 
 			<MainHeader title="Add New Transaction" type="h3"/>
 
-			<NewEntryForm 
-				addEntry={addEntry}
-				description={description} setDescription={setDescription} 
-				value={value} setValue={setValue} 
-				isExpense={isExpense} setIsExpese={setIsExpese}
-			/>
+			<NewEntryForm />
 
-			<ModalEdit 
-				isOpen={isOpen} 
-				setIsOpen={setIsOpen}
-				description={description} setDescription={setDescription} 
-				value={value} setValue={setValue} 
-				isExpense={isExpense} setIsExpese={setIsExpese}
-			/>
+			<ModalEdit isOpen={isOpen} {...entry} />
 
 		</Container>
   );

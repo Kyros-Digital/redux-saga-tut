@@ -22,6 +22,18 @@ function App() {
 		setEntries(result)
 	}
 
+	const editEntry = (id) => {
+		console.log(`edit entry with id ${id}`)
+		if(id) {
+			const index = entries.findIndex(entry => entry.id === id)
+			const entry = entries[index]
+			setDescription(entry.description)
+			setValue(entry.value)
+			setIsExpese(entry.isExpense)
+			setIsOpen(true)
+		}
+	}
+
 	const addEntry = (description, value, isExpense) => {
 		const result = entries.concat({id: entries.length+1, description, value, isExpense})
 		setEntries(result)
@@ -38,17 +50,29 @@ function App() {
 
 			<MainHeader title="History" type="h3"/>
 
-			<EntryLines entries={entries} deleteEntry={deleteEntry} setIsOpen={setIsOpen}/>
+			<EntryLines 
+				entries={entries} 
+				deleteEntry={deleteEntry} 
+				setIsOpen={setIsOpen}
+				editEntry={editEntry}
+			/>
 
 			<MainHeader title="Add New Transaction" type="h3"/>
 
 			<NewEntryForm 
-			addEntry={addEntry}
-			description={description} setDescription={setDescription} 
-			value={value} setValue={setValue} 
-			isExpense={isExpense} setIsExpese={setIsExpese}/>
+				addEntry={addEntry}
+				description={description} setDescription={setDescription} 
+				value={value} setValue={setValue} 
+				isExpense={isExpense} setIsExpese={setIsExpese}
+			/>
 
-			<ModalEdit isOpen={isOpen} setIsOpen={setIsOpen}/>
+			<ModalEdit 
+				isOpen={isOpen} 
+				setIsOpen={setIsOpen}
+				description={description} setDescription={setDescription} 
+				value={value} setValue={setValue} 
+				isExpense={isExpense} setIsExpese={setIsExpese}
+			/>
 
 		</Container>
   );

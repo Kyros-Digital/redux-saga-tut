@@ -7,10 +7,11 @@ import EntryLines from './components/EntryLines';
 import MainHeader from './components/MainHeader';
 import ModalEdit from './components/ModalEdit';
 import NewEntryForm from './components/NewEntryForm';
+import { useSelector } from 'react-redux'
+
 
 function App() {
 
-	const [entries, setEntries] = useState(initialEntries);
 	const [description, setDescription] = useState('');
 	const [value, setValue] = useState('');
 	const [isExpense, setIsExpese] = useState(true);
@@ -19,6 +20,7 @@ function App() {
 	const [incomeTotal, setIncomeTotal] = useState(0)
 	const [expenseTotal, setExpenseTotal] = useState(0)
 	const [total, setTotal] = useState(0)
+	const entries = useSelector(state => state.entries)
 
 	useEffect(() => {
 		if(!isOpen && entryId) {
@@ -27,10 +29,10 @@ function App() {
 			newEntries[index].description = description
 			newEntries[index].value = value
 			newEntries[index].isExpense = isExpense
-			setEntries(newEntries)
+			// setEntries(newEntries)
 			resetEntry()
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+
 	}, [isOpen]);
 
 	useEffect(() => {
@@ -44,13 +46,7 @@ function App() {
 		setExpenseTotal(totalExpense)
 	}, [entries]);
 
-	const deleteEntry = (id) => {
-		const result = entries.filter(entry => entry.id !== id)
-		setEntries(result)
-	}
-
 	const editEntry = (id) => {
-		console.log(`edit entry with id ${id}`)
 		if(id) {
 			const index = entries.findIndex(entry => entry.id === id)
 			const entry = entries[index]
@@ -64,7 +60,7 @@ function App() {
 
 	const addEntry = () => {
 		const result = entries.concat({id: entries.length+1, description, value, isExpense})
-		setEntries(result)
+		// setEntries(result)
 		resetEntry()
 	}
 
@@ -87,7 +83,6 @@ function App() {
 
 			<EntryLines 
 				entries={entries} 
-				deleteEntry={deleteEntry} 
 				setIsOpen={setIsOpen}
 				editEntry={editEntry}
 			/>
@@ -114,30 +109,3 @@ function App() {
 }
 
 export default App;
-
-var initialEntries = [
-	{
-		id: 1,
-		description: 'Work income',
-		value: 1000,
-		isExpense: false
-	},
-	{
-		id: 2,
-		description: 'Water Bill',
-		value: 133,
-		isExpense: true
-	},
-	{
-		id: 3,
-		description: 'Rent',
-		value: 650,
-		isExpense: true
-	},
-	{
-		id: 4,
-		description: 'Power bill',
-		value: 82,
-		isExpense: true
-	},
-]

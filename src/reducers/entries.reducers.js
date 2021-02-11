@@ -1,5 +1,5 @@
 
-export const reducer = (state = initialEntries, action) => {
+export const entriesReducer = (state = initialEntries, action) => {
 	let newEntries;
 	switch (action.type) {
 		case 'ADD_ENTRY':
@@ -16,7 +16,7 @@ export const reducer = (state = initialEntries, action) => {
 var initialEntries = [
 	{
 		id: 1,
-		description: 'Work income',
+		description: 'Work DOLLAS',
 		value: 1000,
 		isExpense: false
 	},

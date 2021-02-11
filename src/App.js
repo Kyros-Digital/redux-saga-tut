@@ -48,11 +48,14 @@ function App() {
 //////////////////
 	const store = createStore((state = initialEntries, action) => {
 		console.log(action)
+		let newEntries;
 		switch (action.type) {
 			case 'ADD_ENTRY':
-				const newEntries = state.concat({...action.payload})
+				newEntries = state.concat({...action.payload})
 				return newEntries;
-
+			case 'REMOVE_ENTRY': 
+				newEntries = state.filter(entry => entry.id !== action.payload.id)
+				return newEntries
 			default:
 				return state;
 		}
@@ -62,12 +65,16 @@ function App() {
 		console.log('store: ', store.getState())
 	})
 
-	const payload = {
+	const payload_add = {
 		id: 5, description: 'heloo from redux', value: 100, isExpense: false
 	}
-	
-	store.dispatch({type: 'ADD_ENTRY', payload: payload})
-	store.dispatch({type: 'ADD_ENTRY', payload: payload})
+
+	const payload_remove = {
+		id: 1
+	}
+
+	store.dispatch({type: 'ADD_ENTRY', payload: payload_add})
+	store.dispatch({type: 'REMOVE_ENTRY', payload: payload_remove})
 
 /////////////////
 

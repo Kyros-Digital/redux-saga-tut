@@ -7,7 +7,7 @@ import EntryLines from './components/EntryLines';
 import MainHeader from './components/MainHeader';
 import ModalEdit from './components/ModalEdit';
 import NewEntryForm from './components/NewEntryForm';
-
+import { createStore } from 'redux'
 
 function App() {
 
@@ -31,6 +31,7 @@ function App() {
 			setEntries(newEntries)
 			resetEntry()
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isOpen]);
 
 	useEffect(() => {
@@ -43,6 +44,32 @@ function App() {
 		setIncomeTotal(totalIncome)
 		setExpenseTotal(totalExpense)
 	}, [entries]);
+
+//////////////////
+	const store = createStore((state = initialEntries, action) => {
+		console.log(action)
+		switch (action.type) {
+			case 'ADD_ENTRY':
+				const newEntries = state.concat({...action.payload})
+				return newEntries;
+
+			default:
+				return state;
+		}
+	})
+
+	store.subscribe(() => {
+		console.log('store: ', store.getState())
+	})
+
+	const payload = {
+		id: 5, description: 'heloo from redux', value: 100, isExpense: false
+	}
+	
+	store.dispatch({type: 'ADD_ENTRY', payload: payload})
+	store.dispatch({type: 'ADD_ENTRY', payload: payload})
+
+/////////////////
 
 	const deleteEntry = (id) => {
 		const result = entries.filter(entry => entry.id !== id)

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container } from 'semantic-ui-react'
 import './App.css';
 import DisplayBalance from './components/DisplayBalance.js';
@@ -16,6 +16,18 @@ function App() {
 	const [value, setValue] = useState('');
 	const [isExpense, setIsExpese] = useState(true);
 	const [isOpen, setIsOpen] = useState(false);
+	const [entryId, setEntryId] = useState(null);
+
+	useEffect(() => {
+		if(!isOpen && entryId) {
+			const index = entries.findIndex(entry => entry.id === entryId)
+			const newEntries = [...entries]
+			newEntries[index].description = description
+			newEntries[index].value = value
+			newEntries[index].isExpense = isExpense
+			setEntries(newEntries)
+		}
+	}, [isOpen]);
 
 	const deleteEntry = (id) => {
 		const result = entries.filter(entry => entry.id !== id)
@@ -27,6 +39,7 @@ function App() {
 		if(id) {
 			const index = entries.findIndex(entry => entry.id === id)
 			const entry = entries[index]
+			setEntryId(id)
 			setDescription(entry.description)
 			setValue(entry.value)
 			setIsExpese(entry.isExpense)

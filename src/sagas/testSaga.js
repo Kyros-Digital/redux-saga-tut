@@ -1,17 +1,16 @@
-import {take} from 'redux-saga/effects'
+import {delay, put, take} from 'redux-saga/effects'
 
 export function* testSaga() {
 	while(true) {
 		console.log('Starting Saga')
-		yield take('TEST_MESSAGE')
-		console.log('Finish saga function')
+		const state = yield take('TEST_MESSAGE')
+		console.log('Finish saga function', state)
 	}
 }
 
-export function* count() {
-	yield 1
-	yield 2
-	yield 3
-	yield 4
-	yield 5
+export function* dispatchTest() {
+	while(true) {
+		yield delay(1000)
+		yield put({type: "TEST_MESSAGE", payload: 1000})
+	}
 }

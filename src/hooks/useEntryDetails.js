@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {useDispatch} from 'react-redux'
-import { addEntryRedux } from '../actions/entries.actions';
+import { addEntryRedux, updateEntryRedux } from '../actions/entries.actions';
 import {v4 as uuidv4} from 'uuid'
 
 function useEntryDetails(desc="", val="", isExp=true) {
@@ -15,6 +15,13 @@ function useEntryDetails(desc="", val="", isExp=true) {
 		setIsExpese(isExp)
 	}, [desc, val, isExp]);
 
+	const updateEntry = (id) => {
+		dispatch(updateEntryRedux(
+			id, 
+			{ id, description, value, isExpense }
+		))
+	}
+
 	const addEntry = () => {
 		dispatch(addEntryRedux({
 			id: uuidv4(),
@@ -28,7 +35,7 @@ function useEntryDetails(desc="", val="", isExp=true) {
 	}
 
 	return {
-		description, setDescription, value, setValue, isExpense, setIsExpese, addEntry
+		description, setDescription, value, setValue, isExpense, setIsExpese, addEntry, updateEntry
 	}
 }
 

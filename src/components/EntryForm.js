@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { Checkbox, Form, Segment } from 'semantic-ui-react'
 
 function EntryForm({description, setDescription, value, setValue, isExpense, setIsExpese}) {
+
 	return (
 		<Fragment>
 			<Form.Group>

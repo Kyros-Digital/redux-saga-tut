@@ -13,7 +13,7 @@ function useEntryDetails(desc="", val="", isExp=true) {
 		setDescription(desc)
 		setValue(val)
 		setIsExpese(isExp)
-	}, [description, value, isExpense]);
+	}, [desc, val, isExp]);
 
 	const addEntry = () => {
 		dispatch(addEntryRedux({

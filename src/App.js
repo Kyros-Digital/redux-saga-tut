@@ -16,12 +16,11 @@ function App() {
 	const [expenseTotal, setExpenseTotal] = useState(0)
 	const [total, setTotal] = useState(0)
 	const [entry, setEntry] = useState()
-	const {isOpen, id} = useSelector(state => state.modals.isOpen)
+	const {isOpen, id} = useSelector(state => state.modals)
 	const entries = useSelector(state => state.entries)
 
 	useEffect(() => {
 		const index = entries.findIndex(entry => entry.id === id)
-		console.log(entries[index])
 		setEntry(entries[index])
 	}, [isOpen, id]);
 
@@ -47,9 +46,7 @@ function App() {
 
 			<MainHeader title="History" type="h3"/>
 
-			<EntryLines 
-				entries={entries} 
-			/>
+			<EntryLines entries={entries} />
 
 			<MainHeader title="Add New Transaction" type="h3"/>
 

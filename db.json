@@ -2,25 +2,39 @@
 	"entries": [
 		{
 		"id": 1,
-		"description": "Work DOLLAS",
+		"description": "Work DOLLAS"
+		},
+		{
+		"id": 2,
+		"description": "Water Bill"
+		},
+		{
+		"id": 3,
+		"description": "Rent"
+		},
+		{
+		"id": 4,
+		"description": "Power bill"
+		}
+	],
+	"values": [
+		{
+		"id": 1,
 		"value": 1000,
 		"isExpense": false
 		},
 		{
 		"id": 2,
-		"description": "Water Bill",
 		"value": 133,
 		"isExpense": true
 		},
 		{
 		"id": 3,
-		"description": "Rent",
 		"value": 650,
 		"isExpense": true
 		},
 		{
 		"id": 4,
-		"description": "Power bill",
 		"value": 82,
 		"isExpense": true
 		}

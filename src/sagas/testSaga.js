@@ -1,4 +1,4 @@
-import {delay, put, take, call, fork, takeEvery} from 'redux-saga/effects'
+import {delay, put, take, call, fork, takeEvery, cancel, cancelled} from 'redux-saga/effects'
 
 function double(number) {
 	return number * 2
@@ -44,11 +44,34 @@ export function* testSagaTakeEvery() {
 	console.log(`Finish TakeEvery for index ${payload}`)
 }
 
+function* infinitySaga() {
+	console.log("starting infinate saga")
+	while(true) {
+		try {
+			console.log('inside inifinate loop')
+			yield delay(500)
+		} catch(error) {
+			console.error('A error happend', error)
+		} finally {
+			console.log('the fork was cancelled?', yield cancelled())
+		}
+	}
+	console.log("ending infinate saga")
+}
+
+export function* testSagaCancel() {
+	yield take('TEST_MESSAGE_4')
+	const handleCancel = yield fork(infinitySaga)
+	yield delay(3000)
+	yield cancel(handleCancel)
+}
+
 export function* dispatchTest() {
 	let index = 0
-	while(true) {
-		yield delay(500)
-		yield put({type: "TEST_MESSAGE_3", payload: index})
-		index++
-	}
+	yield put({type: "TEST_MESSAGE_4", payload: index})
+	// while(true) {
+	// 	yield delay(500)
+		
+	// 	index++
+	// }
 }

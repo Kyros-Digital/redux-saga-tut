@@ -1,4 +1,4 @@
-import {delay, put, take, call, fork} from 'redux-saga/effects'
+import {delay, put, take, call, fork, takeEvery} from 'redux-saga/effects'
 
 function double(number) {
 	return number * 2
@@ -33,9 +33,22 @@ export function* testSagaFork() {
 	}
 }
 
+export function* testSagaTakeEveryProcess({payload}) {
+	console.log(`Starting process for index ${payload}`)
+	yield delay(3000)
+	console.log(`Ending process for index ${payload}`)
+}
+
+export function* testSagaTakeEvery() {
+	const {payload} = yield takeEvery("TEST_MESSAGE_3", testSagaTakeEveryProcess)
+	console.log(`Finish TakeEvery for index ${payload}`)
+}
+
 export function* dispatchTest() {
+	let index = 0
 	while(true) {
-		yield delay(5000)
-		yield put({type: "TEST_MESSAGE_2", payload: 1000})
+		yield delay(500)
+		yield put({type: "TEST_MESSAGE_3", payload: index})
+		index++
 	}
 }
